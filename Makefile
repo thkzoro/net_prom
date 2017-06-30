@@ -1,19 +1,22 @@
 ################ Makefle #################
-all : server client lib_test
+all : server client serv_for_vlc
 
-server : server.o
-	gcc -o server server.o  -I include -L lib -lrecord_parse
-server.o : server.c
-	gcc -c -o server.o server.c
+S_OBJS += server.o src/serv_process.o 
+V_OBJS += serv_for_vlc.o src/serv_process.o 
 
-client : client.o
-client.o : client.c
-	gcc -c -o client.o client.c
+server : $(S_OBJS)
+	gcc -I include $(S_OBJS) -o $@ -L lib -lrecord_parse
 
-lib_test : lib_test.o
-	gcc -o lib_test lib_test.o -I include -L lib -lrecord_parse
-lib_test.o : lib_test.c
-	gcc -c -o lib_test.o lib_test.c  
+client : $(C_OBJS)
+
+# lib_test : lib_test.o
+# 	gcc -o lib_test lib_test.o -I include -L lib -lrecord_parse
+
+serv_for_vlc : $(V_OBJS)
+	gcc -I include $(V_OBJS) -o $@ -L lib -lrecord_parse
+
+%.o:%.c
+	gcc -c $^ -o $@
 
 clean:
-	-@rm -f *.o server client lib_test
+	-@rm -f *.o server client serv_for_vlc

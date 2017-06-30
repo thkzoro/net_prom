@@ -17,16 +17,6 @@
  extern "C" {
 #endif
 
-#define MAX_ABS_PATH_SIZE 4096
-
-typedef struct  tm_data_node {
-    time_t time_start;
-    time_t time_finish;
-    char data_abs_path[MAX_ABS_PATH_SIZE];
-    struct  tm_data_node* next;
-}tm_data_node_t;
-
-
 /**
 *@func     meari_va_get_fragments_init
 *@brief    initialize some data before get time fragments and frame
@@ -51,7 +41,7 @@ extern int record_parse_init(char *path);
 *@author   charles
 *date      2017-06-27
 */
-extern void record_parse_print_all_tm_data_list();
+extern void record_parse_print_all_tm_data_list(void);
 
 
 
@@ -97,7 +87,7 @@ extern int record_parse_get_one_frame(int buff_len, char* buff, int* frame_len, 
 *@author   charles
 *date      2017-06-27
 */
-extern void record_parse_get_frame_stop();
+extern void record_parse_get_frame_stop(void);
 
 
 /**
@@ -111,7 +101,49 @@ extern void record_parse_get_frame_stop();
 *@author   charles
 *date      2017-06-27
 */
-extern void record_parse_deinit();
+extern void record_parse_deinit(void);
+
+/**
+*@func    record_parse_print_index
+*@brief   print the index file content
+*
+*@param   path[IN] the index file path 
+*
+*@return   On success, return 0. On Error, return -1.
+*
+*@author   charles
+*date      2017-06-27
+*/
+extern int record_parse_print_index(char* path);
+
+/**
+*@func    record_parse_convert_data
+*@brief   convert data to mp4 file
+*
+*@param   src_path[IN] the data file path 
+*@param   dst_path[IN] the target directory 
+*
+*@return   On success, return 0. On Error, return -1.
+*
+*@author   charles
+*date      2017-06-27
+*/
+extern int record_parse_convert_data(char *src_path, char *dst_path);
+
+/**
+*@func    record_parse_convert_all
+*@brief   convert all the data file in src_dir to mp4 file to destination
+*
+*@param   src_path[IN] the data file path 
+*@param   dst_dir[IN] the target directory 
+*
+*@return   On success, return 0. On Error, return -1.
+*
+*@author   charles
+*date      2017-06-27
+*/
+extern int record_parse_convert_all(char *src_dir, char *dst_dir);
+
 
 #ifdef __cplusplus
 }
